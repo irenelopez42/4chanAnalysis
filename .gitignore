@@ -123,10 +123,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 .dmypy.json
-
-# files not available for distribution
-hate_vocabulary.json
 dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# files not available for distribution
+hate_vocabulary.json
