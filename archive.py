@@ -19,7 +19,7 @@ irrelevant_keys = ['doc_id', 'num', 'subnum', 'op', 'timestamp_expired', 'capcod
                    'extra_data', 'media', 'board', 'nreplies']  # may be changed depending on needs
 
 # user specific
-headers = {'User-Agent': 'ABC'}    
+headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0'}    
 
 
 def search_4plebs(start_date, end_date, board):
@@ -65,18 +65,22 @@ def get_4plebs(board, thread_id):
         except:
             time.sleep(5)
             
-    original = r['{}'.format(thread_id)]['op']
+    keys = list(r['{}'.format(thread_id)].keys())
+    
+    original = r['{}'.format(thread_id)][keys[0]]
     
     for key in irrelevant_keys:
         del original[key]
     
-    comments = r['{}'.format(thread_id)]['posts']
-    comments_text = []
-
-    for n in comments.keys():
-        comment = comments[n]['comment']
-        if comment != None:
-            comments_text.append(comments[n]['comment'])        
+    if len(keys) > 1:
+        comments = r['{}'.format(thread_id)][keys[1]]
+        comments_text = []
+    
+        for n in comments.keys():
+            comment = comments[n]['comment']
+            comments_text.append(comments[n]['comment'])
+    else:
+        comments_text = []
 
     return original, comments_text
     
