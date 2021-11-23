@@ -65,9 +65,6 @@ def main():
         
         post, replies = get_4plebs('pol', thread_id)
         del post['thread_num']
-        print(post)
-        print(len(replies))
-        print(replies)
         years[int(date[-4:]) - 2013][f"{thread_id}"] = {}
         years[int(date[-4:]) - 2013][f"{thread_id}"]['op'] = post
         years[int(date[-4:]) - 2013][f"{thread_id}"]['replies'] = replies
