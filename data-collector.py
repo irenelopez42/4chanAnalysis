@@ -12,6 +12,8 @@ import requests
 import json
 import time
 import numpy as np
+from subprocess import call
+from socket import gethostname
 from archive import get_4plebs
 
 # user specific
@@ -72,20 +74,22 @@ def main():
     
         ## save json every 11 threads added, as a checkpoint in case of errors
         if not pag % 11:
-            with open("dict_ids.json", 'w', encoding="utf8") as file:
+            with open(f"dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
                 json.dump(dict_ids, file)
             for year in range(2013,2022):
-                with open(f"year{year}.json", 'w', encoding="utf8") as file:
+                with open(f"year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
                     json.dump(years[year-2013], file)
             
             
-    with open("dict_ids.json", 'w', encoding="utf8") as file:
+    with open(f"dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
         json.dump(dict_ids, file)
         
     for year in range(2013,2022):
-        with open(f"year{year}.json", 'w', encoding="utf8") as file:
+        with open(f"year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
             print("\n TEST \n", years[year-2013])
             json.dump(years[year-2013], file)
+    
+    call("./push.sh")
 
     
 if __name__ == "__main__":
