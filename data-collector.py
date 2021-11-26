@@ -88,8 +88,6 @@ def main():
         with open(f"year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
             print("\n TEST \n", years[year-2013])
             json.dump(years[year-2013], file)
-    
-    call("./push.sh")
 
     
 if __name__ == "__main__":
