@@ -34,28 +34,37 @@ def main(board):
                     "May": [], "Jun": [], "Jul": [], "Aug": [], "Sep": [], 
                     "Oct": [], "Nov": [], "Dec": []}   
             
+        # create empty dict for each year
+        years = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+            
         # some info about the 4Plebs archive for /pol/
+        init_year = 2013
         total_pages = 821178
+        skip_pages = 266
         post_per_page = 10
         
         
     elif board == 'adv':
+        
         for year in range(2014, 2022):
             dict_ids[ f"{year}" ] = {"Jan": [], "Feb": [], "Mar": [], "Apr": [], 
                     "May": [], "Jun": [], "Jul": [], "Aug": [], "Sep": [], 
                     "Oct": [], "Nov": [], "Dec": []}
+        
+        # create empty dict for each year
+        years = [{}, {}, {}, {}, {}, {}, {}, {}]
             
         # some info about the 4Plebs archive for /adv/
+        init_year = 2014
         total_pages = 86415
+        skip_pages = 30
         post_per_page = 10
         
     else:
         sys.exit("This board is not supported")
+
     
-    # create empty dict for each year
-    years = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
-    
-    for pag in range(1, total_pages + 1, 80):
+    for pag in range(1, total_pages + 1, 1 + skip_pages):
         
         url = f"http://archive.4plebs.org/_/api/chan/index/?board={board}&page={pag}&order=by_thread"
 
@@ -81,27 +90,27 @@ def main(board):
         
         post, replies = get_4plebs(f'{board}', thread_id)
         del post['thread_num']
-        years[int(date[-4:]) - 2013][f"{thread_id}"] = {}
-        years[int(date[-4:]) - 2013][f"{thread_id}"]['op'] = post
-        years[int(date[-4:]) - 2013][f"{thread_id}"]['replies'] = replies
+        years[int(date[-4:]) - init_year][f"{thread_id}"] = {}
+        years[int(date[-4:]) - init_year][f"{thread_id}"]['op'] = post
+        years[int(date[-4:]) - init_year][f"{thread_id}"]['replies'] = replies
 
     
         ## save json every 11 threads added, as a checkpoint in case of errors
         if not pag % 11:
             with open(f"Data/{board}/dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
                 json.dump(dict_ids, file)
-            for year in range(2013,2022):
+            for year in range(init_year,2022):
                 with open(f"Data/{board}/year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
-                    json.dump(years[year-2013], file)
+                    json.dump(years[year-init_year], file)
             
             
+    # save final json files
     with open(f"Data/{board}/dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
         json.dump(dict_ids, file)
         
-    for year in range(2013,2022):
+    for year in range(init_year, 2022):
         with open(f"Data/{board}/year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
-            print("\n TEST \n", years[year-2013])
-            json.dump(years[year-2013], file)
+            json.dump(years[year-init_year], file)
 
     
 if __name__ == "__main__":
