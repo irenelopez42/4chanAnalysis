@@ -77,7 +77,7 @@ def main(board):
         date =  time.ctime(timestamp)
         dict_ids[date[-4:]][date[4:7]].append(thread_id)  #collect thread id and add to list of ids
         
-        post, replies = get_4plebs('pol', thread_id)
+        post, replies = get_4plebs(f'{board}', thread_id)
         del post['thread_num']
         years[int(date[-4:]) - 2013][f"{thread_id}"] = {}
         years[int(date[-4:]) - 2013][f"{thread_id}"]['op'] = post
