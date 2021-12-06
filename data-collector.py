@@ -68,6 +68,8 @@ def main(board):
                 break
                     
             except:
+                if tries == 99:
+                    print("Error occurred on page ", pag)
                 time.sleep(5)
  
         rand_post = list(r.keys())[np.random.randint(0, post_per_page)]        
