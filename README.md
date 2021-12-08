@@ -6,7 +6,7 @@ Group members: Benedikt Geitner, Vincent Halasz (@ga42quy), Irene López Gutiér
 
 ## Data collection
 
-We collect data from two of the most extensive 4chan archives: 4Plebs and Archived.moe. We chose 4plebs because of its easily accesible API. However, some of the boards we identified as relevant to our project are not in this archive. Thus, we extend out dataset by performing some web-scrapping on Archived.Moe.
+We collect data from two of the most extensive 4chan archives: [4plebs](https://4plebs.org/) and [Archived.moe](https://archived.moe/). We chose 4plebs because of its easily accesible API. However, some of the boards we identified as relevant to our project are not in this archive. Thus, we extended our dataset by performing some web-scrapping on Archived.Moe.
 
 ### Data format
 
@@ -19,7 +19,7 @@ Threads collected are stored in json files under `/Data/board/`. There are two t
 ~~~
 
 - `year####.json` files contain keys for each thread ID in that year. Each ID has an associated dictionary with two keys: "op" and "replies".
-    - Under "op" is stored the following information about the original post: the timestamp (in Unix time), the title, and the comment itself (a.k.a the main text block of the post.) 
-    - Under "replies" the is a list containing the text of all replies to OP. Only the text is stored for these.
+    - Under "op" the following information about the original post is stored: the timestamp (in Unix time), the title, and the comment itself (a.k.a the main text block of the post). 
+    - Under "replies" there is a list containing the text of all replies to OP. Only the text is stored for these.
 
 
