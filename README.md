@@ -8,6 +8,15 @@ Group members: Benedikt Geitner, Vincent Halasz (@ga42quy), Irene López Gutiér
 
 We collect data from two of the most extensive 4chan archives: [4plebs](https://4plebs.org/) and [Archived.moe](https://archived.moe/). We chose 4plebs because of its easily accesible API. However, some of the boards we identified as relevant to our project are not in this archive. Thus, we extended our dataset by performing some web-scrapping on Archived.Moe.
 
+
+|  Board  |  # threads   |  # posts   |
+|---------|:------------:|-----------:|
+|   pol   |     3076     |   110358   |
+|   adv   |     2788     |    35234   |
+|   sci   |     2980     |    62026   |
+|   news  |     3156     |    97055   |
+
+
 ### Data format
 
 Threads collected are stored in json files under `/Data/board/`. There are two types of json files:

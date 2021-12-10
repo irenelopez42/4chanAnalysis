@@ -7,7 +7,6 @@ Collect older thread from 4plebs (maybe add more archives)
 """
 
 import requests
-import json
 import time
 
 irrelevant_keys = ['doc_id', 'num', 'subnum', 'op', 'timestamp_expired', 'capcode', 'email',
@@ -19,8 +18,14 @@ irrelevant_keys = ['doc_id', 'num', 'subnum', 'op', 'timestamp_expired', 'capcod
                    'extra_data', 'media', 'board', 'nreplies']  # may be changed depending on needs
 
 # user specific
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0'}    
+headers = {'User-Agent': 'asfkhfbsdmn'}    
 
+def mon_to_number(mon):
+    """ takes month abbreviation and gives back number"""
+    months = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, 
+                    "May": 5, "Jun": 6, "Jul": 7, "Aug": 8, "Sep": 9, 
+                    "Oct": 10, "Nov": 11, "Dec": 12}
+    return months[mon]
 
 def search_4plebs(start_date, end_date, board):
     """ Search for posts in specific board, during specific timeframe in the 4plebs archive """
@@ -78,7 +83,7 @@ def get_4plebs(board, thread_id):
     
         for n in comments.keys():
             comment = comments[n]['comment']
-            comments_text.append(comments[n]['comment'])
+            comments_text.append(comment)
     else:
         comments_text = []
 
