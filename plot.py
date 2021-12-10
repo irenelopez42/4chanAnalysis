@@ -68,13 +68,15 @@ with open("Plots/dates.pickle", 'wb') as file:
     pickle.dump(dates, file)
     
 pol_max = np.argmax(n_threads[2])
+news_max = np.argmax(n_threads[1])
     
 plt.plot(dates[0], n_threads[0], label=boards[0])
 plt.plot(dates[1], n_threads[1], label=boards[1])
 plt.plot(dates[2], n_threads[2], label=boards[2])
 plt.plot(dates[3], n_threads[3], label=boards[3])
 plt.legend()
-plt.xticks([dates[0][0], dates[2][0], dates[1][0], dates[2][pol_max], dates[0][-1]], rotation=50)
+plt.xticks([dates[0][0], dates[2][0], dates[1][0], dates[1][news_max],
+            dates[2][pol_max], dates[0][-1]], rotation=50)
 plt.ylabel("Number of threads")
 plt.xlabel("Date")
 plt.savefig("Plots/n_threads.pdf")
@@ -85,7 +87,8 @@ plt.plot(dates[1], np.array(n_threads[1]) + np.array(n_posts[1]), label=boards[1
 plt.plot(dates[2], np.array(n_threads[2]) + np.array(n_posts[2]), label=boards[2])
 plt.plot(dates[3], np.array(n_threads[3]) + np.array(n_posts[3]), label=boards[3])
 plt.legend()
-plt.xticks([dates[0][0], dates[2][0], dates[1][0], dates[2][pol_max], dates[0][-1]], rotation=50)
+plt.xticks([dates[0][0], dates[2][0], dates[1][0], dates[1][news_max],
+            dates[2][pol_max], dates[0][-1]], rotation=50)
 plt.ylabel("Number of posts")
 plt.xlabel("Date")
 plt.savefig("Plots/n_posts.pdf")
