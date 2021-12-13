@@ -15,7 +15,7 @@ import time
 import json
 
 # user specific
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0'}
+headers = {'User-Agent': 'ajkhrnmdf'}
 
 def mon_to_number(mon):
     """ takes month abbreviation and gives back number"""
@@ -46,7 +46,7 @@ def main(board):
         # some info about the archived.moe archive for /sci/
         init_year = 2010
         total_pages = 62581
-        skip_pages = 20
+        skip_pages = 2
         
         
     elif board == 'news':
@@ -153,5 +153,5 @@ def main(board):
     
 if __name__ == '__main__':
     
-    board = 'news'
+    board = 'sci'
     main(board)

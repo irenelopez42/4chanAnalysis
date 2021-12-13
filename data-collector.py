@@ -18,7 +18,7 @@ from socket import gethostname
 from archive import get_4plebs
 
 # user specific
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0'}   
+headers = {'User-Agent': 'sakdeiuncvs'}   
 
 def main(board):
     
@@ -57,7 +57,7 @@ def main(board):
         # some info about the 4Plebs archive for /adv/
         init_year = 2014
         total_pages = 86415
-        skip_pages = 30
+        skip_pages = 3
         post_per_page = 10
         
     else:
@@ -115,6 +115,6 @@ def main(board):
     
 if __name__ == "__main__":
     
-    board = "pol"  # board abbreviation from which to obtain data
+    board = "adv"  # board abbreviation from which to obtain data
     
     main(board)
