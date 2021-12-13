@@ -15,7 +15,7 @@ import time
 import numpy as np
 from subprocess import call
 from socket import gethostname
-from archive import get_4plebs
+from utils import get_4plebs
 
 # user specific
 headers = {'User-Agent': 'sakdeiuncvs'}   
