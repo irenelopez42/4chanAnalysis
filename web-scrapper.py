@@ -7,12 +7,12 @@ File to do some web-scrapping on archived.moe to obtain data for boards /sci/ an
 """
 
 import sys
-import requests
 import re
 from bs4 import BeautifulSoup
 import datetime
 import time
 import json
+from archive_utils import try_request, mon_to_number
 
 # user specific
 headers = {'User-Agent': 'adbsfkjrgn'}
@@ -66,18 +66,8 @@ def main(board):
         
         # request access to page and get one thread id
         url = f"https://archived.moe/{board}/page/{pag}"
-        # tries to acces url. If access denied, sleep 5 seconds. Maximum tries = 100
-        for tries in range(100):
-            try:
-                r = requests.get(url, headers=headers)
-                r.raise_for_status()
-                break
-                    
-            except:
-                if tries == 99:
-                    print("Error occurred on page ", pag)
-                    sys.exit("Request access denied 100 times.")
-                time.sleep(5)
+        r = try_request(url, headers)
+                
         soup = BeautifulSoup(r.text, 'html.parser')
         
         posts = soup.find_all("div", {"class": re.compile("thread stub")})
@@ -86,18 +76,7 @@ def main(board):
         
         # request access to thread and get important info
         url = f"https://archived.moe/{board}/thread/{id_post}"
-        # tries to acces url. If access denied, sleep 5 seconds. Maximum tries = 100
-        for tries in range(100):
-            try:
-                r = requests.get(url, headers=headers)
-                r.raise_for_status()
-                break
-                    
-            except:
-                if tries == 99:
-                    print("Error occurred on page ", pag)
-                    sys.exit("Request access denied 100 times.")
-                time.sleep(5)
+        r = try_request(url, headers)
                 
         post = BeautifulSoup(r.text, 'html.parser')
         

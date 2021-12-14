@@ -9,13 +9,11 @@ Collect random posts through time using the 4plebs API. Works for two boards: 'p
 """
 
 import sys
-import requests
 import json
 import time
 import numpy as np
-from subprocess import call
 from socket import gethostname
-from utils import get_4plebs
+from archive_utils import get_4plebs, try_request
 
 # user specific
 headers = {'User-Agent': 'sakdeiuncvs'}   
@@ -68,18 +66,8 @@ def main(board):
         
         url = f"http://archive.4plebs.org/_/api/chan/index/?board={board}&page={pag}&order=by_thread"
 
-        # tries to acces url. If access denied, sleep 5 seconds. Maximum tries = 100
-        for tries in range(100):
-            try:
-                r = requests.get(url, headers=headers)
-                r.raise_for_status()
-                r = r.json()
-                break
-                    
-            except:
-                if tries == 99:
-                    print("Error occurred on page ", pag)
-                time.sleep(5)
+        r = try_request(url, headers)
+        r = r.json()
  
         rand_post = list(r.keys())[np.random.randint(0, post_per_page)]        
         timestamp = r[rand_post]['op']['timestamp']
@@ -97,19 +85,19 @@ def main(board):
     
         ## save json every 11 threads added, as a checkpoint in case of errors
         if not pag % 11:
-            with open(f"Data/{board}/dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
+            with open(f"Data/{board}/dict_ids.json", 'w', encoding="utf8") as file:
                 json.dump(dict_ids, file)
             for year in range(init_year,2022):
-                with open(f"Data/{board}/year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
+                with open(f"Data/{board}/year{year}.json", 'w', encoding="utf8") as file:
                     json.dump(years[year-init_year], file)
             
             
     # save final json files
-    with open(f"Data/{board}/dict_ids_{gethostname()}.json", 'w', encoding="utf8") as file:
+    with open(f"Data/{board}/dict_ids.json", 'w', encoding="utf8") as file:
         json.dump(dict_ids, file)
         
     for year in range(init_year, 2022):
-        with open(f"Data/{board}/year{year}_{gethostname()}.json", 'w', encoding="utf8") as file:
+        with open(f"Data/{board}/year{year}.json", 'w', encoding="utf8") as file:
             json.dump(years[year-init_year], file)
 
     

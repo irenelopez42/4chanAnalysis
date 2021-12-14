@@ -15,10 +15,21 @@ irrelevant_keys = ['doc_id', 'num', 'subnum', 'op', 'timestamp_expired', 'capcod
                    'title_processed', 'name_processed', 'email_processed', 'trip_processed', 
                    'poster_hash_processed', 'poster_country_name', 'poster_country_name_processed', 
                    'exif', 'troll_country_code', 'troll_country_name', 'since4pass', 'unique_ips', 
-                   'extra_data', 'media', 'board', 'nreplies']  # may be changed depending on needs
+                   'extra_data', 'media', 'board', 'nreplies']  # may be changed depending on needs  
 
-# user specific
-headers = {'User-Agent': 'asfkhfbsdmn'}    
+def try_request(url, headers):
+    """ try accessing url. If access denied, wait a minute. Maximum tries = 10"""
+    for tries in range(10):
+        try:
+            time.sleep(5)
+            r = requests.get(url, headers=headers)
+            r.raise_for_status()
+            break
+                
+        except:
+            time.sleep(60)
+            
+    return r
 
 def mon_to_number(mon):
     """ takes month abbreviation and gives back number"""
@@ -30,20 +41,13 @@ def mon_to_number(mon):
 def search_4plebs(start_date, end_date, board):
     """ Search for posts in specific board, during specific timeframe in the 4plebs archive """
     
+    # user specific
+    headers = {'User-Agent': 'asfkhfbsdmn'}  
+    
     url = "http://archive.4plebs.org/_/api/chan/search/?boards={}&start={}&end={}&results=thread&order=asc".format(board, start_date, end_date)
     
-    # tries to access endpoint. If exception, wait 5 seconds and try again. Maximum 10 tries.
-    for tries in range(10):
-        try:
-            r = requests.get(url, headers=headers)
-            r.raise_for_status()
-        
-            r = r.json()
-            break
-        except:
-            time.sleep(5)
-        
-
+    r = try_request(url, headers)
+    r = r.json()
     
     posts = r['0']['posts']  # get posts and ignore metadata
     
@@ -57,21 +61,15 @@ def get_4plebs(board, thread_id):
     """ Look for specific thread in 4plebs archive. 
     Returns dict of info about original post and a list of comments """
     
+    # user specific
+    headers = {'User-Agent': 'uieafkjnkvo'}  
+    
     url = "http://archive.4plebs.org/_/api/chan/thread/?board={}&num={}".format(board, thread_id)
     
-    # tries to access endpoint. If exception, wait 5 seconds and try again. Maximum 10 tries.
-    for tries in range(10):
-        try:
-            r = requests.get(url, headers=headers)
-            r.raise_for_status()
-        
-            r = r.json()
-            break
-        except:
-            time.sleep(5)
-            
-    keys = list(r['{}'.format(thread_id)].keys())
+    r = try_request(url, headers)
+    r = r.json()
     
+    keys = list(r['{}'.format(thread_id)].keys())
     original = r['{}'.format(thread_id)][keys[0]]
     
     for key in irrelevant_keys:
