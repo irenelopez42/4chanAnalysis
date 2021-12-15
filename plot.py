@@ -10,7 +10,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
-from utils import mon_to_number
+from archive_utils import mon_to_number
 
 boards = ["sci", "news", "pol", "adv"]
 n_threads = []  #empty list to store number of posts per month

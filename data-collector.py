@@ -12,7 +12,6 @@ import sys
 import json
 import time
 import numpy as np
-from socket import gethostname
 from archive_utils import get_4plebs, try_request
 
 # user specific

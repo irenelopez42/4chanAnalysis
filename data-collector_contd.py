@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 23 20:37:32 2021
+Created on Tue Dec 14
 
 @author: Irene Lopez Gutierrez
 
@@ -12,7 +12,6 @@ import sys
 import json
 import time
 import numpy as np
-from socket import gethostname
 import archive_utils
 
 # user specific
@@ -25,18 +24,19 @@ def main(board):
     
     if board == 'pol':
     
-        with open("Data/adv/dict_ids.json", 'rb') as file:
+        with open("Data/pol/dict_ids.json", 'rb') as file:
             dict_ids = json.load(file)
         
         # open dicts for each year
         years = []
         for year in dict_ids.keys():
-            with open(f"Data/adv/year{year}.json", 'rb') as file:
+            with open(f"Data/pol/year{year}.json", 'rb') as file:
                 years.append(json.load(file))
             
         # some info about the 4Plebs archive for /pol/
+        resume_from = 1
         init_year = 2013
-        total_pages = 821178
+        until = 821178
         skip_pages = 266
         post_per_page = 10
         
@@ -53,9 +53,9 @@ def main(board):
                 years.append(json.load(file))
             
         # some info about the 4Plebs archive for /adv/
-        resume_from = 67200
+        resume_from = 66921
         init_year = 2014
-        total_pages = 86615
+        until = 67205
         skip_pages = 3
         post_per_page = 10
         
@@ -63,7 +63,7 @@ def main(board):
         sys.exit("This board is not supported")
 
     
-    for pag in range(resume_from, total_pages + 1, 1 + skip_pages):
+    for pag in range(resume_from, until + 1, 1 + skip_pages):
         
         url = f"http://archive.4plebs.org/_/api/chan/index/?board={board}&page={pag}&order=by_thread"
 
