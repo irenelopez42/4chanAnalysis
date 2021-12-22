@@ -32,6 +32,10 @@ for board in boards:
         
         year_dict = dict_ids[year]
         
+        #open dict with threads data
+        with open(f"Data/{board}/year{year}.json", 'r') as file:
+            dict_posts = json.load(file)
+        
         for month in year_dict.keys():
             
             mon = mon_to_number(month)
@@ -42,10 +46,6 @@ for board in boards:
             month_ids = year_dict[month]
             n_threads_month = len(month_ids)
             n_threads_board.append(n_threads_month)
-            
-            #open dict with threads data
-            with open(f"Data/{board}/year{year}.json", 'r') as file:
-                dict_posts = json.load(file)
               
             # count number of replies in all threads for this month
             n_replies = 0
