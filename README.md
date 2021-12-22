@@ -53,6 +53,6 @@ Due to technical limitations it is not feasible for us to collect all available 
 When plotting data it is possible to rescale the y-axis for each board according to these percentages. This way the scales of the boards relative to one another will be preserved. As an example, the plots below show the number of threads per board as a function of the month when they were posted. The left-hand side plot shows the collected threads, while the data from the right-hand side plot has been scaled appropriately to estimate the actual numbers in 4chan.
 
 <p float="left">
-<img src="Plots/n_threads.png" width="424" height="265"> 
-<img src="Plots/n_threads_scaled.png" width="424" height="265">
+<img src="Plots/n_threads.png" width="400" height="260"> 
+<img src="Plots/n_threads_scaled.png" width="400" height="260">
 </p>
