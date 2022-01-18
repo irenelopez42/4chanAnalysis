@@ -130,6 +130,8 @@ dmypy.json
 
 # files not available for distribution
 hate_vocabulary.json
+hate_vocab.npy
+worldbank_usa
 
 #mac-os meta
 .DS_Store

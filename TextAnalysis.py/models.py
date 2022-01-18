@@ -44,7 +44,7 @@ class ChanThread:
 
     def __init__(self, id: int, json) -> None:
         """Take a json representation of a thread and use it to initialize a new ChanThread object"""
-        self.post = ChanPost(id=id,json=json['op'])
+        self.post = ChanPost(id=id * 100,json=json['op'])
         for rep in json['replies']:
             self.addReply(rep, json=json)
 
@@ -68,4 +68,7 @@ class ChanThread:
         return list(map(ChanPost.asRawString, self.asPosts()))
 
     def parseThreads(json):
-        return list(map(lambda item: ChanThread(int(item[0]),json=item[1]), json.items()))
+        threads = []
+        for t in json.items():
+            threads += ChanThread(int(t[0]),json=t[1]).asRawStrings()
+        return threads
