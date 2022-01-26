@@ -74,6 +74,7 @@ def parseThread(base_id, jsonThread):
 
     return df
 
+
 def loadPostsFromJson(paths: list[str]):
     """Extract all posts from the given json files, standardize the text and return a combined dataframe object"""
     files = getFiles(paths)

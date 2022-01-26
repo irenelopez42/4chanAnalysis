@@ -27,22 +27,22 @@ def vectorizeLayer(vocab: np.ndarray) -> tf.Tensor:
         vocabulary = vocab
     )
 
-def mapTokenCounts(text: str, vocab: np.ndarray) -> str:
+def mapTokenCounts(text: np.ndarray, vocab: np.ndarray) -> np.ndarray:
     """
-    map the given post to matched words from the vocabulary
+    map the given texts to matched words from the vocabulary
     """
+    dset = tf.data.Dataset.from_tensor_slices(text)
     vector_layer = vectorizeLayer(vocab)
-    t = tf.constant(text)
-    counts = vector_layer(t).numpy()[1:]
-    counts = counts.astype(np.bool8)
-    return " ".join(vocab[counts])
+    dset = dset.map(lambda x: tf.expand_dims(x,-1)).map(vector_layer)
+    return np.array(list(map(lambda x: " ".join(vocab[x[0][1:].astype(np.bool8)]), dset.as_numpy_iterator())))
     
 
 def standardizer(text: str) -> str:
     """A method for standardizing a given string tensor"""
     lowercased = text.lower()
     html_stripped = strings.regex_replace(lowercased, "<[^>]+>", " ")
-    punctuation_stripped = strings.regex_replace(html_stripped, "[%s]" % re.escape(string.punctuation), "").numpy().decode('utf-8')
+    number_stripped = strings.regex_replace(html_stripped, "[0-9]+", "")
+    punctuation_stripped = strings.regex_replace(number_stripped, "[%s]" % re.escape(string.punctuation), "").numpy().decode('utf-8')
     lemmatizer = WordNetLemmatizer()
     lemmatized = " ".join(map(lemmatizer.lemmatize, word_tokenize(punctuation_stripped)))
     return lemmatized

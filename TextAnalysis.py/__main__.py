@@ -27,7 +27,7 @@ def doTheMagic():
         print("Extract vocabulary matches for files:")
         print(files)
         df = io.loadPostsFromJson(files)
-        df.loc[:,"matched_vocab"] = df.loc[:,"content"].map(lambda x: lang.mapTokenCounts(x, vocab))
+        df.loc[:,"matched_vocab"] = lang.mapTokenCounts(df.loc[:,"content"].to_numpy(),vocab)
         df.to_csv(args.o[0])
         
 if __name__ == '__main__':

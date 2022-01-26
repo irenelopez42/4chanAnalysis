@@ -132,6 +132,7 @@ dmypy.json
 hate_vocabulary.json
 hate_vocab.npy
 worldbank_usa
+usa_indicators
 
 #mac-os meta
 .DS_Store
