@@ -17,7 +17,14 @@ def main():
     for i, board in enumerate(['sci', 'news', 'adv']):
         
         # load file
-        df = pd.read_csv(f"Counts/{board}_counts.csv")
+        if board=='pol':
+            df0 = pd.read_csv("Counts/pol_counts_part0.csv")
+            df1 = pd.read_csv("Counts/pol_counts_part1.csv")
+            
+            df = pd.concat([df0, df1], axis=0, ignore_index=True)
+            
+        else:
+            df = pd.read_csv(f"Counts/{board}_counts.csv")
         
         # remove post if no hate words
         df = df.dropna(how='any', axis=0)
@@ -32,12 +39,13 @@ def main():
         df['date'] = pd.to_datetime(df.timestamp, unit='s')
         df['month'] = pd.to_datetime(df.date).dt.to_period('M')
         
-        # group post by month and plot histogram
-        df.groupby('month')['length'].count().plot.bar(ax=axes[i])
-            
+        # group posts by month
+        grouped = df.groupby('month')['length'].count()
+        grouped = grouped.reset_index()
+        
+        print("Board: ", board)
+        print(grouped)
 
-    
-    return
 
 if __name__ == '__main__':
     main()

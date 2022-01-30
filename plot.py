@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 from archive_utils import mon_to_number
+import pandas as pd
 
 boards = ["sci", "news", "pol", "adv"]
 n_threads = []  #empty list to store number of posts per month
@@ -40,7 +41,7 @@ for board in boards:
             
             mon = mon_to_number(month)
             td_year = year[-2:]
-            dates_board.append(f"{mon}/{td_year}")
+            dates_board.append(f"1/{mon}/20{td_year}")
             
             # count number of threads in this month
             month_ids = year_dict[month]
@@ -58,7 +59,14 @@ for board in boards:
     n_threads.append(n_threads_board)
     n_posts.append(n_posts_board)
     dates.append(dates_board)
-    
+
+length = len(dates[0])
+d = {"month": dates[0], "n_posts_sci": n_posts[0], 
+     "n_posts_news": [0]*(length - len(n_posts[1])) + n_posts[1], 
+     "n_posts_pol": [0]*(length - len(n_posts[2])) + n_posts[2], 
+     "n_posts_adv": [0]*(length - len(n_posts[3])) + n_posts[3]}
+df = pd.DataFrame(data=d)
+df.to_csv("Counts/n_posts.csv")
     
 with open("Plots/n_threads.pickle", 'wb') as file:
     pickle.dump(n_threads, file)
